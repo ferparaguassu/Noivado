@@ -1,70 +1,103 @@
-# Chá dos Noivos — Lista de Presentes
+# 🎁 Chá dos Noivos — Lista de Presentes
 
-Site completo (frontend + backend) para a lista de presentes de Fernando & Priscila.
+> Sistema web de lista de presentes para eventos de casamento, desenvolvido para o Chá dos Noivos de Fernando & Priscila.
 
-Não precisa de Claude, não pede login — qualquer convidado abre o link e usa direto.
+🌐 **Acesse online:** [fernandopri.github.io/cha-noivos](https://fernandopri.github.io/cha-noivos)
 
-## O que tem aqui
+---
 
-- `server.js` — backend (Node + Express), guarda os dados em `data/db.json`
-- `public/index.html` — frontend (HTML/CSS/JS puro, sem build)
-- 26 presentes pré-cadastrados
+## 🛠️ Tecnologias utilizadas
 
-## Como funciona
+| Camada | Tecnologia |
+|--------|-----------|
+| **Frontend** | HTML5, CSS3, JavaScript (Vanilla) |
+| **Backend** | Node.js, Express.js |
+| **Banco de dados** | JSON file-based (sem dependência externa) |
+| **Hospedagem** | GitHub Pages (frontend) / Railway ou Render (full-stack) |
+| **Runtime** | Node.js ≥ 18 |
 
-- Convidado entra com nome + email (sem senha)
-- Escolhe 1 presente — depois de escolhido, fica travado (não pode trocar)
-- Presente escolhido some da lista pra todo mundo (não dá pra dois convidados pegarem o mesmo)
-- Painel admin (senha: `fernando2026`) pra ver quem escolheu o quê, adicionar/remover presentes, liberar uma seleção se precisar
+---
 
-## Como rodar localmente (pra testar)
+## 📋 Funcionalidades
 
-```bash
-npm install
-npm start
+- 🎁 Lista de 23 presentes organizados por categoria (Cozinha, Banheiro, Decoração)
+- 👤 Convidado informa nome e email para reservar um presente
+- 🔒 Um presente por convidado — bloqueado após a escolha
+- ⚡ Presente desaparece da lista assim que alguém o reserva, em tempo real
+- 📱 Design responsivo para mobile e desktop
+
+---
+
+## 🗂️ Estrutura do projeto
+
+```
+cha-noivos/
+├── public/
+│   └── index.html      # Frontend completo (HTML + CSS + JS em um único arquivo)
+├── server.js           # API REST com Express.js
+├── data/
+│   └── db.json         # Banco de dados gerado automaticamente na primeira execução
+├── package.json
+└── README.md
 ```
 
-Depois abra `http://localhost:3000` no navegador.
+---
 
-## Como publicar (deixar online com link público)
-
-### Opção recomendada: Render.com (gratuito)
-
-1. Crie uma conta em https://render.com
-2. Suba esta pasta para um repositório no GitHub (ou use o "Deploy from folder" se disponível)
-3. No Render: **New > Web Service**, conecte o repositório
-4. Configurações:
-   - Build command: `npm install`
-   - Start command: `npm start`
-5. Em **Environment Variables**, adicione (opcional, recomendado):
-   - `ADMIN_PASSWORD` = uma senha sua, diferente de `fernando2026`
-6. Clique em Deploy. Em poucos minutos você terá um link como `https://cha-noivos-fernando.onrender.com`
-
-**Importante:** no plano gratuito do Render, o disco não é permanente — se o serviço reiniciar, os dados podem ser perdidos. Para um evento real, vale considerar:
-- O plano pago do Render com "persistent disk" (a partir de poucos dólares/mês), ou
-- Trocar `data/db.json` por um banco de dados real (Render oferece PostgreSQL gratuito) — posso ajustar o código se quiser essa opção.
-
-### Opção alternativa: Railway.app
-
-Funciona de forma parecida ao Render — conecta o repositório, builda e gera link público. Railway costuma manter o disco entre reinicializações no plano gratuito, o que é mais seguro para este caso.
-
-### Opção alternativa: Rodar em um VPS próprio
-
-Se você já tem um servidor (ex: DigitalOcean, AWS, etc), basta:
+## 🚀 Como rodar localmente
 
 ```bash
-git clone <seu-repositorio>
-cd cha-noivos
+# 1. Instalar dependências
 npm install
+
+# 2. Iniciar o servidor
 npm start
+
+# 3. Abrir no navegador
+# http://localhost:3000
 ```
 
-E usar um processo como `pm2` para manter o servidor sempre rodando, com um domínio apontado para ele.
+---
 
-## Trocar a senha do admin
+## ☁️ Deploy
 
-Edite a variável de ambiente `ADMIN_PASSWORD` na hospedagem, ou troque diretamente no `server.js` (linha com `ADMIN_PASSWORD`).
+### GitHub Pages (somente frontend estático)
+1. Faça o push do repositório para o GitHub
+2. Vá em **Settings → Pages**
+3. Selecione a branch `main` e a pasta `/public`
+4. O site ficará disponível em `https://<seu-usuario>.github.io/cha-noivos`
 
-## Personalizar os presentes
+### Railway (full-stack recomendado)
+1. Conecte o repositório em [railway.app](https://railway.app)
+2. O Railway detecta o `package.json` automaticamente
+3. Build: `npm install` · Start: `npm start`
+4. Gera uma URL pública em segundos
 
-Edite a lista em `server.js`, na função `defaultGifts()` — ou adicione/remova presentes direto pelo painel admin depois que o site estiver no ar.
+### Render
+1. Conecte o repositório em [render.com](https://render.com)
+2. **New → Web Service**
+3. Build: `npm install` · Start: `npm start`
+
+---
+
+## 📡 Endpoints da API
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `GET` | `/api/gifts` | Lista todos os presentes com status |
+| `POST` | `/api/login` | Verifica se o email já tem seleção |
+| `POST` | `/api/select` | Reserva um presente |
+
+---
+
+## 📦 Dependências
+
+```json
+{
+  "express": "^4.19.2",
+  "cors": "^2.8.5"
+}
+```
+
+---
+
+<sub>Made with ❤️ and [Claude Code](https://claude.ai/code)</sub>
